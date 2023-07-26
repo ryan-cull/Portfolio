@@ -1,0 +1,125 @@
+---
+title: "Ryan Cull PS0700 Research Paper"
+author: "Ryan Cull"
+date: "12/11/2022"
+output:
+  pdf_document: default
+  html_document: default
+---
+#Experiment 1: Community engagement vs. methods to deal with urban unrest (V202031 and V201429)
+#Experiment 2: Economic growth and environmental protection vs. urban rural (Q111 and H_URBRURAL) 
+
+Experiment 1
+
+ 
+## 1. Introduction
+
+Throughout American history, civil unrest has been a topic of much political discourse. Most recently, civil unrest became a highlighted issue in the summer of 2020. After months spent inside to reduce the spread of COVID-19, many rushed to the streets to protest excessive use of force, unnecessary police killings, and overall injustice within the system of American policing. While a clear majority of protests remained peaceful, those that didn’t garnered searing public attention, especially from the American political right. While some people with more fringe ideologies supported the unrest, the consensus among the American public was that civil unrest was unproductive and harmful to the people of our nation. However, even among this group unified in their desire to address the civil unrest, there are vast differences in individuals’ preferred methods. Many believe that the way to deal with civil unrest is to address the underlying issues. They argue that if people were more satisfied with American institutions and their own quality of life, there would be nothing to riot for. Other groups argue that the way to deal with civil unrest is to use increased force. These groups would argue that ruling with an iron fist is the best way to maintain order. While there are undoubtedly many underlying causes that shape people’s views on this issue, there is one specific relationship I would like to examine. 
+
+In recent years, attitudes toward American policing have become increasingly negative across the board. However, African Americans tend to be more disapproving of American policing than members of other racial groups.^[Tuch, Steven A., and Ronald Weitzer. “Trends: Racial Differences in Attitudes Toward the Police.” The Public Opinion Quarterly 61, no. 4 (1997): 642–63. http://www.jstor.org/stable/2749572.] This would lead me to believe that on average, African Americans would prefer to deal with civil unrest by addressing underlying societal issues instead of increasing the usage of force. However, that relationship has been examined time and time again. Countless times, we’ve seen the general ideological leanings of different racial groups, age groups, and genders. It’s already apparent that race plays a significant role in the formation of American individuals’ attitudes toward policing. Instead, I’d like to examine if increased exposure to politics and community groups could shape peoples’ ideas of policing. As has been stated, white Americans typically look more favorably upon our system of policing than African Americans do. This leads me to believe that for white Americans, higher political involvement and the subsequent exposure to a more diverse array of opinions could lead to a more disapproving view of police, and this would subsequently shape their views on how we should address civil unrest.
+
+
+## 2. Theory and Hypothesis
+
+To conduct this experiment, I will be using data from the American National Election Studies surveys from 2020. To measure people’s level of civic engagement, I will be using a survey in which respondents said whether or not they had participated in a group effort to solve a problem within their community in the last twelve months. To measure people’s attitudes on a proper response to civil unrest, I will be using a similar survey in which respondents used a scale from 1 to 7 to represent their preferred method of addressing civil unrest. In this survey, 1 represented the approach of addressing underlying societal issues, and 7 represented the approach of increasing force. I will be treating the data on civic engagement as my independent variable, and I will be treating the data regarding opinions on urban unrest as my dependent variable. 
+
+My null hypothesis is that there is no relationship between an individual’s level of involvement in their community and their opinions on a proper solution for urban unrest. My alternative hypothesis is that there will be a negative relationship between an individual’s level of civic engagement and their preferred approach in addressing civil unrest. Since community involvement was measured with a simple yes or no question in this survey, it will be a nominal variable. Since opinions on addressing civil unrest were measured on a scale from 1-7, I will be treating the results of that survey as an interval variable. Therefore, to examine the relationship between these two variables, I will be conducting a t-test.
+
+## 3. Research Design
+
+```{r Load Your Data1}
+#install.packages("readxl")
+library(readxl)
+ #install.packages("haven")
+library(haven)
+anes20 <- read_dta("anes_timeseries_2020_stata_20210324.dta")
+engagement <- anes20$V202031
+unrest <- anes20$V201429
+ dat <- data.frame(engagement, unrest)
+```
+
+```{r Clean Your Variables1,results='hide'}
+dat$engagement[dat$engagement<1] <- NA
+dat$engagement[dat$engagementl>2] <- NA 
+dat$unrest[dat$unrest<1] <- NA
+dat$unrest[dat$unrest>7] <- NA 
+na.omit(dat)
+```
+
+## 4. Result
+
+```{r Statistical Test1}
+
+mean(dat$unrest[dat$engagement==1], na.rm = TRUE)
+mean(dat$unrest[dat$engagement==2], na.rm = TRUE)
+
+
+#install.packages("gmodels")
+library(gmodels)
+t.test(dat$unrest~dat$engagement)
+```
+
+## 5. Conclusion
+
+The mean answer on the 1 to 7 scale for participants’ preferred methods to deal with urban unrest was notably higher among those who hadn’t worked with others to address a community issue within the past 12 months. After conducting the t-test with can see a p-value of 2.2 * 10^(-16). This p-value is very small and near zero. This means that if our population means or true means were equal, our chances of obtaining sample means with this level of difference would be incredibly slim. Therefore, we can reject the null hypothesis, and we can safely assume that there is a correlation between an individual’s level of civic engagement and their opinions on the proper method for the American government to address urban unrest.
+
+While my goal in this experiment was to see whether increased participation in local politics affected an individual’s perceptions of urban unrest, I only proved a correlation rather than a causality. It would not be safe to assume that increased political participation causes a difference in approach to addressing civil unrest. One reason for this is that we cannot be certain of the direction of causality. It is possible that increased involvement and exposure to a wider array of perspectives can shape one’s view of urban unrest, but it is just as possible that those who think that addressing societal issues is important would be more likely to involve themselves in political projects. Also, confounding variables could be causing the differences seen in the data. For example, left-leaning people may be more likely to both involve themselves in community projects and oppose increased force in response to urban unrest. In that scenario, the confounding variable of political affiliation would be the cause of the difference in our means in this experiment. There are many ways in which the analysis in this experiment could be improved upon. For example, changing the style to a pure experiment would be helpful in proving causality rather than correlation. Also, opinions on government responses to unrest are often complicated and hard to represent on a numbered scale. Although a correlation between our two variables is clear, this experiment was not able to prove that civic engagement has a causal effect on a person's preferred response to urban unrest.
+
+
+Experiment 2
+
+## 1. Introduction
+
+In modern American politics, one of the most pressing issues is the increasing danger presented by climate change. While many American voters refuse to even believe in climate change, the consensus among the American voter base is that climate change is a problem. However, many debates surrounding the severity of the threat presented by climate change rage on. Typically, more left-leaning Americans support immediate action against climate change while the more conservative members of our population are more reluctant to react. While a majority of Americans definitely do notice the threat of climate change and more specifically, the threat global warming poses on our way of life, some people are not willing to make the tradeoffs and sacrifices necessary to slow the heating of our planet. Specifically, many are opposed to taking environmental action that would prevent the growth of our economy. While many people realize that the effects of climate change will negatively impact our futures, they are still unwilling to sacrifice immediate economic prosperity. People’s opinions on climate change are typically complex, but I believe one major factor in how an individual’s views on the topic are formed is whether they are from an urban or rural area.
+
+Americans tend to be somewhat aware of climate change, but I believe that a higher proportion of America’s urban residents would describe themselves as being more concerned with the potential effects of global warming. In recent years, the urban areas of the United States have seen a growing wave of “neoliberal environmentalism”.^[Whitehead, Mark. “Neoliberal Urban Environmentalism and the Adaptive City: Towards a Critical Urban Theory and Climate Change.” Urban Studies 50, no. 7 (2013): 1348–67. http://www.jstor.org/stable/26144295.] Neoliberalism as an ideology is based on a free economy without government regulation and government spending. In theory, neoliberal environmentalists would favor both economic growth and climate action in tandem. However, the question presented in this survey pits these two ideals against one another, so a choice must be made. While I do believe that urban environmentalists would have some desire to preserve economic growth due to the widespread neoliberal ideologies in major urban areas, I also believe that these groups would have a much stronger preference to protect the environment when compared to their rural counterparts. This is because the desire to preserve economic growth is more widespread throughout rural communities, but the newfound focus on environmentalism is more prevalent in urban communities. 
+
+
+## 2. Theory and Hypothesis
+
+To test this hypothesis, I will be using data from the World Values Survey Wave 7. To measure an individual’s preference between environmental protection and economic growth, I will be using a binary survey. Although the original survey contains other responses for those without strong preferences, I will only be using the data from the responses in which respondents  answered either that they supported environmental protection over economic growth or vice versa. I will be doing something similar in my interpretation of the data for whether respondents lived in an urban or rural area. I will only be acknowledging the responses in which a participant in the survey directly stated if they live in an urban or rural environment, and I will be omitting data in which participants failed to give one of those two answers. After omitting all of this data, I am left with two variables which are both measured with a binary response. 
+
+After cleaning the data, we are left with two nominal variables. This means that a cross-tabulation test would be the optimal way to explore the relationship between these two variables. I will be treating participants’ areas of residence as my dependent variable, and I will be treating participants’ prioritization of environmental action as my dependent variable. My null hypothesis is that there is no relationship between the variables of a participant’s views on environmental action and whether they live in an urban or rural environment. My alternative hypothesis is that residents of urban areas will prioritize environmental action over economic growth more than their rural counterparts. I will be running a cross-tabulation test and using the p-value to determine whether or not the two variables have a statistically significant relationship. 
+
+## 3. Research Design
+
+```{r Load Your Data2}
+load(file = "WVS_Cross-National_Wave_7_R_v2_0.rdata")
+wvs7 <- `WVS_Cross-National_Wave_7_v2_0`
+environment <- wvs7$Q111
+area <- wvs7$H_URBRURAL
+dat <- data.frame(environment,area)
+
+```
+
+```{r Clean Your Variables2}
+dat$environment[dat$environment<1] <- NA
+dat$environment[dat$environment>2] <- NA 
+dat$area[dat$area<1] <- NA
+dat$area[dat$area>5] <- NA 
+```
+
+## 4. Result
+
+```{r Statistical Test2}
+#install.packages("gmodels")
+library(gmodels)
+CrossTable(dat$environment, dat$area,
+expected = TRUE, prop.c = TRUE,
+prop.r = FALSE, prop.t = FALSE,
+prop.chisq = FALSE, chisq = TRUE)
+```
+
+
+## 5. Conclusion
+When looking at the crosstable, we can see that the number of urban respondents who supported environmental protection over economic growth was greater than the expected number. This displays a relationship in which residents of urban areas are more likely to say they support environmental protection over economic growth. We can also see that the number of rural residents in the survey who supported environmental action over economic growth was lower than the statistically expected number, displaying a relationship that suggests rural residents will be less likely to prioritize environmental protection. From just looking at the table, we can see these relationships, but we need to examine our p-value before we can claim that this relationship is statistically significant. The p-value in this test was very small at a value of 7.4*10^(-9). This indicates that it was incredibly unlikely that the differences between our expected numbers and actual numbers in the crosstable occurred through chance. A p-value this small allows us to reject our null hypothesis and assume that there is a relationship between an individual’s area of residence and their views on the importance of environmental action.
+
+While I did prove a significant relationship between my two variables, it cannot be assumed that this is a casual relationship. Furthermore, it certainly cannot be assumed that this is a causal relationship specifically in the direction of a participant’s area of residence having an impact on their views on climate action. While it would make more sense that living in an urban area would expose an individual to more environmentalist perspectives and ultimately shape their views, we have no hard evidence that can be used to prove this causality. Also, many confounding variables are present in any study conducted with surveys. In this study, an individual’s political party would probably have a major impact on both of our variables. Democrats are more likely to reside in urban areas and support environmental regulation, while the opposite is true for Republicans. Any study’s ability to prove causality is improved upon if it is recreated as a true experiment, but with a question like this, it is difficult to gather the data in an experimental form. Since we are using real-world variables and opinions, the creation of a control group would be highly costly and impractical if not impossible. The data can be adjusted in R to account for some possible confounding variables, but this still would not be enough to prove causality. Although this study did prove an apparent relationship between a person’s area of residence and their preference between economic growth and environmental protection, it was not able to prove causality.
+
+\break
+Tuch, Steven A., and Ronald Weitzer. “Trends: Racial Differences in Attitudes Toward the Police.” The Public Opinion Quarterly 61, no. 4 (1997): 642–63. http://www.jstor.org/stable/2749572.
+
+
+\break
+Whitehead, Mark. “Neoliberal Urban Environmentalism and the Adaptive City: Towards a Critical Urban Theory and Climate Change.” Urban Studies 50, no. 7 (2013): 1348–67. http://www.jstor.org/stable/26144295.
+ ```
